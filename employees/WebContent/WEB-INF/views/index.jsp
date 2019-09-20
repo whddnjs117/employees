@@ -8,6 +8,8 @@
 </head>
 <body>
 	<h1>Index</h1>
+		<a href="${pageContext.request.contextPath}/departments/getDepartmentsList">부서 목록</a>
+		<a href="${pageContext.request.contextPath}/employees/getEmployeesList">사원 목록</a>
 	<div>
 		employees table total row count : <%=request.getAttribute("employeesRowCount") %>
 	</div>
