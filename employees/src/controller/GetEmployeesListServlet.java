@@ -22,7 +22,7 @@ public class GetEmployeesListServlet extends HttpServlet {
 		}
 		System.out.println("GetEmployeesListServlet limit : "+limit);// 넘겨받은 값이 몇인지 확인하는 작업
 		employeesDao = new EmployeesDao();
-		List<Employees> list = employeesDao.selectEmplyeesList(limit);
+		List<Employees> list = employeesDao.selectEmployeesList(limit);
 		
 		request.setAttribute("list", list);
 		

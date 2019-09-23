@@ -23,6 +23,9 @@
 			//List<Employees> list = (List<Employees>)request.getAttribute("list"); 자바로 선언한방식
 			//${list} el로 가져오는방식
 		%>
+		<div>
+			<a href="${pageContext.request.contextPath}/index" class="btn btn-success">홈으로</a>
+		</div>
 		<form method="get" action="<%=request.getContextPath()%>/employees/getEmployeesList">
 			<select name="limit">
 				<option value="10">10개씩</option>
@@ -34,7 +37,7 @@
 			<button type="submit" class="btn btn-outline-secondary">확인</button>
 		</form>
 		<table class="table table-bordered">
-			<thead>
+			<thead class="table-secondary">
 				<tr>
 					<th>사원 번호</th>
 					<th>사원 생일</th>
