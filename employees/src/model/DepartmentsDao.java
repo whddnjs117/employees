@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DBHelper;
 
@@ -9,6 +11,31 @@ import java.sql.*;
 import vo.*;
 
 public class DepartmentsDao {
+	public List<Map<String, Object>> selectDepartmentsCountByDeptNo() {
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		//sql 해석 dept_no 가같은것을 출력을한다. 조건은 퇴사일이 9999-01-01로되어있으며 count가 많은 순서대로 정렬해서 출력한다
+		String sql = "select d.dept_no,d.dept_name ,count(de.dept_no) from dept_emp de inner join departments d on de.dept_no = d.dept_no where de.to_date = '9999-01-01' group by de.dept_no order by count(de.dept_no) desc";
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Map<String,Object> map = new HashMap<String, Object>();
+				map.put("deptNo",rs.getString("d.dept_no"));
+				map.put("deptName",rs.getString("d.dept_name"));
+				map.put("count",rs.getInt("count(de.dept_no)"));
+				list.add(map);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBHelper.close(rs, stmt, conn);
+		}
+		return list;
+	}
 	public int selectDepartmentsRowCount() {//총 몇행인지 알기위한 메서드 index servlet으로 호출
 		int count = 0;
 		final String sql = "SELECT COUNT(*) FROM departments";

@@ -22,8 +22,10 @@ public class IndexServlet extends HttpServlet {
 	private SalariesDao salariesDao;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//EmployeesDao employeesDao = new EmployeesDao();
-		this.employeesDao = new EmployeesDao();
+		employeesDao = new EmployeesDao();
 		int employeesRowCount = employeesDao.selectEmployeesRowCount();
+		int MAX = employeesDao.selectEmpNo("max");
+		int MIN = employeesDao.selectEmpNo("min");
 		
 		departmentsDao = new DepartmentsDao();
 		int departmentsRowCount = departmentsDao.selectDepartmentsRowCount();
@@ -45,6 +47,8 @@ public class IndexServlet extends HttpServlet {
 		//rd.forward(request, response); 
 		
 		request.setAttribute("employeesRowCount", employeesRowCount);
+		request.setAttribute("max", MAX);
+		request.setAttribute("min", MIN);
 		request.setAttribute("departmentsRowCount", departmentsRowCount);
 		request.setAttribute("deptManagerRowCount", deptManagerRowCount);
 		request.setAttribute("deptEmpRowCount", deptEmpRowCount);

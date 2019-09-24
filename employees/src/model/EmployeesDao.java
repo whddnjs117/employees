@@ -7,10 +7,88 @@ import java.sql.ResultSet;
 import vo.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.HashMap;
 import db.DBHelper;
 
 public class EmployeesDao {
+	public int selectEmpNo(String str) {
+		int empNo = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "";
+		if(str.equals("max")) { //emp_no의 최대값을
+			sql = "SELECT MAX(emp_no) FROM employees";
+		} else if(str.equals("min")) { //최솟값을
+			sql = "SELECT MIN(emp_no) FROM employees";
+		}
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				empNo = rs.getInt(1); //sql이 조건에 따라 달리질수가있으므로 인덱스값을 이용
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBHelper.close(rs, stmt, conn);
+		}
+		return empNo;
+	}
+	public List<Employees> selectEmployeesListBetween(int begin,int end) {
+		List<Employees> list = new ArrayList<Employees>(); //다형성때문에 List로 선언한다.
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT emp_no,birth_date,first_name,last_name,gender,hire_date FROM employees WHERE emp_no BETWEEN ? AND ? ORDER BY emp_no ASC";
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,begin);
+			stmt.setInt(2,end);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Employees employees = new Employees();
+				employees.setEmpNo(rs.getInt("emp_no"));
+				employees.setBirthDate(rs.getString("birth_date"));
+				employees.setFirstName(rs.getString("first_name"));
+				employees.setLastName(rs.getString("last_name"));
+				employees.setGender(rs.getString("gender"));
+				employees.setHireDate(rs.getString("hire_date"));
+				list.add(employees);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBHelper.close(rs, stmt, conn);
+		}
+		return list;
+	}
+	public List<Map<String, Object>> selectEmployeesCountGroupByGender() {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(); //배열안에 haspmap을 이용하여 어느이름에 어느값을 저장할지를 설정
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT gender,COUNT(gender) cnt FROM employees GROUP BY gender"; //GROUP BY는 DISTINCT(생략) 랑은 다르게 중복값을 묶어둔다고 생각하면된다.
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("gender",rs.getString("gender"));
+				map.put("cnt",rs.getString("cnt"));
+				list.add(map);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBHelper.close(rs, stmt, conn);
+		}
+		return list;
+	}
 	public List<Employees> selectEmployListOrderBy(String order) { //오름차순또는 내림차순을위한 메서드를 생성
 		System.out.println("selectEmployListOrderBy order :" + order);
 		List<Employees> list = new ArrayList<Employees>(); //다형성때문에 List로 선언한다.

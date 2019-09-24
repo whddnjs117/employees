@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,5 +69,17 @@
 		<div>
 			<a href="${pageContext.request.contextPath}/salaries/getSalariesStatistics">salary 연봉 통계값(count, sum, avg, max, min, std)</a>
 		</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/employees/getEmployeesCountByGender">사원 수(성별 group by gender)</a>
+		</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/departments/getDepartmentsCountByDeptNo">현재 부서별 사원수</a>
+		</div>
+		<form method="post" action="${pageContext.request.contextPath}/employees/getEmployeesListBetween">
+			<div>
+				<input type="number" name="begin">~<input type="number" name="end">${min}~${max}
+				<button type="submit" class="btn-success">사원목록 between</button>
+			</div>
+		</form>
 </body>
 </html>
