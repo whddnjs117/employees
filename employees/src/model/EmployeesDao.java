@@ -8,6 +8,8 @@ import vo.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import db.DBHelper;
+
 public class EmployeesDao {
 	public List<Employees> selectEmployListOrderBy(String order) { //오름차순또는 내림차순을위한 메서드를 생성
 		System.out.println("selectEmployListOrderBy order :" + order);
@@ -22,8 +24,7 @@ public class EmployeesDao {
 			sql = "SELECT emp_no,birth_date,first_name,last_name,gender,hire_date FROM employees ORDER BY first_name DESC LIMIT 50";
 		}
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees","root","java1234");
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -39,13 +40,7 @@ public class EmployeesDao {
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				rs.close();
-				stmt.close();
-				conn.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			DBHelper.close(rs, stmt, conn);
 		}
 		return list;
 	}
@@ -57,8 +52,7 @@ public class EmployeesDao {
 		ResultSet rs = null;
 		String sql = "SELECT emp_no,birth_date,first_name,last_name,gender,hire_date FROM employees LIMIT ?";
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees","root","java1234");
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, limit);
 			rs = stmt.executeQuery();
@@ -75,13 +69,7 @@ public class EmployeesDao {
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				rs.close();
-				stmt.close();
-				conn.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			DBHelper.close(rs, stmt, conn);
 		}
 		return list;
 	}
@@ -93,8 +81,7 @@ public class EmployeesDao {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees","root","java1234");
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			if(rs.next()) { //
@@ -103,13 +90,7 @@ public class EmployeesDao {
 		} catch(Exception e) { // 자바의 변수 생명주기 {}
 			e.printStackTrace();
 		} finally {
-			try {
-				rs.close();
-				stmt.close();
-				conn.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			DBHelper.close(rs, stmt, conn);
 		}
 		return count;
 	}

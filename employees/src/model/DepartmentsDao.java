@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import db.DBHelper;
+
 import java.sql.*;
 import vo.*;
 
@@ -14,8 +17,7 @@ public class DepartmentsDao {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees","root","java1234");
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			if(rs.next()) { //
@@ -41,8 +43,7 @@ public class DepartmentsDao {
 		ResultSet rs = null;
 		String sql = "SELECT dept_no,dept_name FROM departments";
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees","root","java1234");
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -54,13 +55,7 @@ public class DepartmentsDao {
 		} catch (Exception e) { //예외가 발생할경우를 우려해서 무슨오류가발생햇는지 출력
 			e.printStackTrace();
 		} finally {
-			try {
-				rs.close(); //예외가발생하더라고 톰켓에 누적되지않기위해 닫아준다.
-				stmt.close();
-				conn.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			DBHelper.close(rs, stmt, conn);
 		}
 		
 		return list;

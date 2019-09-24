@@ -63,8 +63,11 @@
 			<a href="${pageContext.request.contextPath}/employees/getEmployeesListOrderBy?order=asc" class="btn btn-outline-warning">오름차순50개</a>
 			<a href="${pageContext.request.contextPath}/employees/getEmployeesListOrderBy?order=desc" class="btn btn-outline-warning">내림차순50개</a>
 		</div>
-	<div>
-		employees table total row count : <%=request.getAttribute("employeesRowCount") %>
-	</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/titles/getTitlesListDistinct">업무 목록(중복제거 distinct)</a>
+		</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/salaries/getSalariesStatistics">salary 연봉 통계값(count, sum, avg, max, min, std)</a>
+		</div>
 </body>
 </html>
