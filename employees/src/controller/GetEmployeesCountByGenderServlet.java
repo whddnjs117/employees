@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import model.*;
 @WebServlet("/employees/getEmployeesCountByGender")
 
-public class GetEmployeesCountByGender extends HttpServlet {
+public class GetEmployeesCountByGenderServlet extends HttpServlet {
 	private EmployeesDao employeesDao;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		employeesDao = new EmployeesDao();
 		List<Map<String, Object>> list = employeesDao.selectEmployeesCountGroupByGender();
 		
-request.setAttribute("list",list);
+		request.setAttribute("list",list);
 		
 		
 		request.getRequestDispatcher("/WEB-INF/views/employees/employeesCountByGender.jsp").forward(request, response);

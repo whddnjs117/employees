@@ -12,6 +12,36 @@ import java.util.HashMap;
 import db.DBHelper;
 
 public class EmployeesDao {
+	public List<Employees> selectEmployeesListByPage(int currentPage,int rowPerPage) {
+		List<Employees> list = new ArrayList<Employees>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT emp_no,birth_date,first_name,last_name,gender,hire_date FROM employees limit ?,?";//첫번째? 어디부터 두번째? 몇개를 출력할것인지
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			int startRow = (currentPage-1)*rowPerPage; //몇부터 시작할지는 정하기위한과정
+			stmt.setInt(1,startRow);
+			stmt.setInt(2,rowPerPage);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Employees employees = new Employees();
+				employees.setEmpNo(rs.getInt("emp_no"));
+				employees.setBirthDate(rs.getString("birth_date"));
+				employees.setFirstName(rs.getString("first_name"));
+				employees.setLastName(rs.getString("last_name"));
+				employees.setGender(rs.getString("gender"));
+				employees.setHireDate(rs.getString("hire_date"));
+				list.add(employees);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBHelper.close(rs, stmt, conn);
+		}
+		return list;
+	}
 	public int selectEmpNo(String str) {
 		int empNo = 0;
 		Connection conn = null;

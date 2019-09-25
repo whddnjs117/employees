@@ -13,7 +13,7 @@ import model.*;
 
 
 @WebServlet("/employees/getEmployeesListBetween")
-public class GetEmployeesListBetween extends HttpServlet {
+public class GetEmployeesListBetweenServlet extends HttpServlet {
 	private EmployeesDao employeesDao;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

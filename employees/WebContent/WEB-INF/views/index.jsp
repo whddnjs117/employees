@@ -56,29 +56,39 @@
 			</tbody>
 		</table>
 	</div>
+	<div>
+		목록 종류 :
 		<a href="${pageContext.request.contextPath}/departments/getDepartmentsList" class="btn btn-outline-primary">부서 목록</a>
 		<a href="${pageContext.request.contextPath}/employees/getEmployeesList" class="btn btn-outline-primary">사원 목록</a>
+	</div>	
+	<div>
+		사원 목록 :
+		<a href="${pageContext.request.contextPath}/employees/getEmployeesListOrderBy?order=asc" class="btn btn-outline-warning">오름차순50개</a>
+		<a href="${pageContext.request.contextPath}/employees/getEmployeesListOrderBy?order=desc" class="btn btn-outline-warning">내림차순50개</a>
+	</div>
+	<br>
+	<h2>목록 리스트</h2>
+	<div class="list-group">
 		<div>
-			사원목록 :
-			<a href="${pageContext.request.contextPath}/employees/getEmployeesListOrderBy?order=asc" class="btn btn-outline-warning">오름차순50개</a>
-			<a href="${pageContext.request.contextPath}/employees/getEmployeesListOrderBy?order=desc" class="btn btn-outline-warning">내림차순50개</a>
+			<a href="${pageContext.request.contextPath}/titles/getTitlesListDistinct" class="list-group-item list-group-item-action">업무 목록(중복제거 distinct)</a>
 		</div>
 		<div>
-			<a href="${pageContext.request.contextPath}/titles/getTitlesListDistinct">업무 목록(중복제거 distinct)</a>
+			<a href="${pageContext.request.contextPath}/salaries/getSalariesStatistics" class="list-group-item list-group-item-action">salary 연봉 통계값(count, sum, avg, max, min, std)</a>
 		</div>
 		<div>
-			<a href="${pageContext.request.contextPath}/salaries/getSalariesStatistics">salary 연봉 통계값(count, sum, avg, max, min, std)</a>
+			<a href="${pageContext.request.contextPath}/employees/getEmployeesCountByGender" class="list-group-item list-group-item-action">사원 수(성별 group by gender)</a>
 		</div>
 		<div>
-			<a href="${pageContext.request.contextPath}/employees/getEmployeesCountByGender">사원 수(성별 group by gender)</a>
+			<a href="${pageContext.request.contextPath}/departments/getDepartmentsCountByDeptNo" class="list-group-item list-group-item-action">현재 부서별 사원수</a>
 		</div>
 		<div>
-			<a href="${pageContext.request.contextPath}/departments/getDepartmentsCountByDeptNo">현재 부서별 사원수</a>
+			<a href="${pageContext.request.contextPath}/employees/getEmployeesListByPage" class="list-group-item list-group-item-action">사원목록 페이징(10명씩)</a>
 		</div>
+	</div>
 		<form method="post" action="${pageContext.request.contextPath}/employees/getEmployeesListBetween">
 			<div>
 				<input type="number" name="begin">~<input type="number" name="end">${min}~${max}
-				<button type="submit" class="btn-success">사원목록 between</button>
+				<button type="submit" class="btn btn-success">사원목록 between</button>
 			</div>
 		</form>
 </body>
