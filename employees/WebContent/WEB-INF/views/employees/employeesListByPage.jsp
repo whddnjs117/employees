@@ -70,14 +70,18 @@
 		<c:if test="${currentPage >1 }">
 			<a href="${pageContext.request.contextPath}/employees/getEmployeesListByPage?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}" class="page-link">이전</a>
 		</c:if>
+		
 		<c:forEach var="i" begin="${currentPage}" end="${currentPage+9}" step="1">
 			<c:if test="${currentPage >5}">
 				<a href="${pageContext.request.contextPath}/employees/getEmployeesListByPage?currentPage=${i-5}&rowPerPage=${rowPerPage}" class="page-link">${i-5}</a>
 			</c:if>
+		</c:forEach>
+		<c:forEach var="i" begin="1" end="10" step="1">
 			<c:if test="${currentPage <=5}">
 				<a href="${pageContext.request.contextPath}/employees/getEmployeesListByPage?currentPage=${i}&rowPerPage=${rowPerPage}" class="page-link">${i}</a>
 			</c:if>
 		</c:forEach>
+		
 		<c:if test="${currentPage <lastPage }">
 			<a href="${pageContext.request.contextPath}/employees/getEmployeesListByPage?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}" class="page-link">다음</a>
 		</c:if>

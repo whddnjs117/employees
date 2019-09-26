@@ -19,6 +19,9 @@
 </head>
 <body class="container">
 	<h1>Index</h1>
+	<c:if test="${sessionEmpNo != null}">
+		<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
+	</c:if>
 	<h2>테이블 정보</h2>
 	<div>
 		<table class="table table-hover">
